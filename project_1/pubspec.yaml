@@ -52,6 +52,11 @@ flutter:
   - assets/table-logo.png
   - assets/gallery.png
   - assets/extra.png
+  - assets/ice-cream.png
+  - assets/RoastedChicken.png
+  - assets/Pizza.png
+  - assets/Chicken1.png
+  - assets/dessert.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
