@@ -51,10 +51,10 @@ class _MenuPageState extends State<MenuPage> {
         body: TabBarView(
           children: <Widget>[
             starter(context),
-            starter(context),
-            Icon(Icons.flight, size: 350),
-            Icon(Icons.directions_transit, size: 350),
-            Icon(Icons.directions_car, size: 350),
+            seaFood(context),
+            dessert(context),
+            soup(context),
+            juice(context)
           ],
         ),
       )),
@@ -173,9 +173,339 @@ class SeaFood {
 
 //widget of SeaFood
 Widget seaFood(BuildContext context) {
-  List data = [];
+  List data = [
+    SeaFood(
+        img:
+            'https://i.ndtvimg.com/i/2016-03/prawn-sesame-toast-625_625x350_71457506372.jpg',
+        name: 'Prawn Sesame Toast',
+        rating: 4.1),
+    SeaFood(
+        img:
+            'https://i.ndtvimg.com/i/2016-03/calamari-fried-625_625x350_71457506458.jpg',
+        name: 'Calamari Fritters',
+        rating: 4.1),
+    SeaFood(
+        img:
+            'https://i.ndtvimg.com/i/2016-03/mussels-625_625x350_81457506568.jpg',
+        name: 'Mussels with Lemongrass',
+        rating: 4.1),
+    SeaFood(
+        img:
+            'https://i.ndtvimg.com/i/2016-03/abhay-deol-seafood-spaghetti-625_625x350_81457506703.jpg',
+        name: 'Seafood Spaghetti',
+        rating: 4.1),
+    SeaFood(
+        img:
+            'https://i.ndtvimg.com/i/2016-03/scallops-625-curry_625x350_71457506738.jpg',
+        name: 'Curried Scallops',
+        rating: 4.1),
+    SeaFood(
+        img:
+            'https://i.ndtvimg.com/i/2016-03/goan-crab-curry-625_625x350_61457506533.jpg',
+        name: 'Goan Crab Curry',
+        rating: 4.1)
+  ];
   return ListView.builder(
-      itemCount: 1,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return Card(
+            elevation: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(children: [
+                  Container(
+                    color: Color(0xFFFEEAE6),
+                    height: 220,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.network(
+                      data[index].img,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.bookmark_border_outlined))))
+                ]),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(data[index].name,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF442c2e))),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 100,
+                      ),
+                    ),
+                    Text(data[index].rating.toString(),
+                        style:
+                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                    Icon(
+                      Icons.star,
+                      color: Color(0xfff50057),
+                    )
+                  ],
+                )
+              ],
+            ));
+      });
+}
+
+// Dessert TAB-BAR
+class Dessert {
+  final String img;
+  final String name;
+  final double rating;
+
+  Dessert({required this.img, required this.name, required this.rating});
+}
+
+//widget of Dessert
+Widget dessert(BuildContext context) {
+  List data = [
+    Dessert(
+        img:
+            'https://i.ndtvimg.com/i/2015-09/apple-pie-ice-cream-625_625x350_81443595158.jpg',
+        name: 'Apple Pie',
+        rating: 4.1),
+    Dessert(
+        img:
+            'https://i.ndtvimg.com/i/2015-09/almond-kulfi-625_625x350_61443596643.jpg',
+        name: ' Almond Malai Kulfi',
+        rating: 4.1),
+    Dessert(
+        img:
+            'https://i.ndtvimg.com/i/2015-09/lemon-tart-625_625x350_61443595187.jpg',
+        name: 'Lemon Tart',
+        rating: 4.1),
+    Dessert(
+        img:
+            'https://i.ndtvimg.com/i/2015-09/pistachio-phirni-625_625x350_81443596823.jpg',
+        name: 'Pistachio Phirni',
+        rating: 4.1),
+    Dessert(
+        img:
+            'https://i.ndtvimg.com/i/2015-09/tiramisu-625_625x350_41443596307.jpg',
+        name: ' Low Fat Tiramisu',
+        rating: 4.1),
+    Dessert(
+        img:
+            'https://i.ndtvimg.com/i/2015-09/chocolate-truffle-625_625x350_61443595923.jpg',
+        name: ' Chocolate Truffle',
+        rating: 4.1),
+  ];
+  return ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return Card(
+            elevation: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(children: [
+                  Container(
+                    color: Color(0xFFFEEAE6),
+                    height: 220,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.network(
+                      data[index].img,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.bookmark_border_outlined))))
+                ]),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(data[index].name,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF442c2e))),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 100,
+                      ),
+                    ),
+                    Text(data[index].rating.toString(),
+                        style:
+                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                    Icon(
+                      Icons.star,
+                      color: Color(0xfff50057),
+                    )
+                  ],
+                )
+              ],
+            ));
+      });
+}
+
+// Soup TAB-BAR
+class Soup {
+  final String img;
+  final String name;
+  final double rating;
+
+  Soup({required this.img, required this.name, required this.rating});
+}
+
+//Widget Soup Tab-Bar
+Widget soup(BuildContext context) {
+  List data = [
+    Soup(
+        img: 'https://i.ndtvimg.com/i/2016-05/soup_625x350_61463041066.jpg',
+        name: ' Ladakhi Chicken Soup ',
+        rating: 4.0),
+    Soup(
+        img:
+            'https://i.ndtvimg.com/i/2016-04/thai-noodle-soup-625_625x350_51460529187.jpg',
+        name: 'Thai Noodle Soup',
+        rating: 4.0),
+    Soup(
+        img: 'https://i.ndtvimg.com/i/2016-06/soup_625x350_71466063439.jpg',
+        name: ' Chimney Soup',
+        rating: 4.0),
+    Soup(
+        img:
+            'https://c.ndtvimg.com/2018-11/1d4qohuo_chicken-soup_625x300_14_November_18.jpg',
+        name: 'Spinach Soup',
+        rating: 4.0),
+    Soup(
+        img: 'https://i.ndtvimg.com/i/2016-06/soup_625x350_61464866588.jpg',
+        name: ' Tom Yum Soup ',
+        rating: 4.0),
+    Soup(
+        img:
+            'https://i.ndtvimg.com/i/2015-09/radish-soup-625_625x350_61443177772.jpg',
+        name: ' Cantonese Chicken Soup ',
+        rating: 4.0)
+  ];
+  return ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return Card(
+            elevation: 6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(children: [
+                  Container(
+                    color: Color(0xFFFEEAE6),
+                    height: 220,
+                    width: MediaQuery.of(context).size.width,
+                    child: Image.network(
+                      data[index].img,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.bookmark_border_outlined))))
+                ]),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(data[index].name,
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF442c2e))),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 100,
+                      ),
+                    ),
+                    Text(data[index].rating.toString(),
+                        style:
+                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                    Icon(
+                      Icons.star,
+                      color: Color(0xfff50057),
+                    )
+                  ],
+                )
+              ],
+            ));
+      });
+}
+
+//Juice TAB-BAR
+class Juice {
+  final String img;
+  final String name;
+  final double rating;
+
+  Juice({required this.img, required this.name, required this.rating});
+}
+
+//Widget JUICE Tab-Bar
+Widget juice(BuildContext context) {
+  List data = [
+    Juice(
+        img:
+            'https://i.ndtvimg.com/i/2016-05/watermelon-juice_625x350_81464002799.jpg',
+        name: 'Watermelon Lychee Granita',
+        rating: 4.7),
+    Juice(
+        img:
+            'https://i.ndtvimg.com/i/2016-05/kiwi-juice_625x350_71464002837.jpg',
+        name: 'Cool Kiwi Juice',
+        rating: 4.7),
+    Juice(
+        img: 'https://i.ndtvimg.com/i/2015-04/aam-ras_625x350_41429705345.jpg',
+        name: 'Aam Ras',
+        rating: 4.7),
+    Juice(
+        img:
+            'https://i.ndtvimg.com/i/2016-05/grape-juice_625x350_61464003436.jpg',
+        name: 'Grape Nectar',
+        rating: 4.7),
+    Juice(
+        img:
+            'https://i.ndtvimg.com/i/2017-12/plum-smoothie_620x330_81514276586.jpg',
+        name: 'Plum-ness',
+        rating: 4.7),
+    Juice(
+        img:
+            'https://i.ndtvimg.com/i/2018-02/pomegranate-juice_620x350_51519042311.jpg',
+        name: 'Pomegranate Juice',
+        rating: 4.7),
+  ];
+  return ListView.builder(
+      itemCount: data.length,
       itemBuilder: (context, index) {
         return Card(
             elevation: 6,

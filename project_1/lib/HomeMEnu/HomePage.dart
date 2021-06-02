@@ -53,24 +53,48 @@ class _HomePageState extends State<HomePage> {
         ),
         rowItemCard(context),
         Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(
-            'Most Popular',
-            style: TextStyle(
-                color: Color(0xFF442C2E),
-                fontSize: 18,
-                fontWeight: FontWeight.bold),
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              Text(
+                'Most Popular',
+                style: TextStyle(
+                    color: Color(0xFF442C2E),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              ),
+              Expanded(child: SizedBox()),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                ),
+              )
+            ],
           ),
         ),
         Container(height: 210, child: MostPopular()),
         Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(
-            'Trending',
-            style: TextStyle(
-                color: Color(0xFF442C2E),
-                fontSize: 18,
-                fontWeight: FontWeight.bold),
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              Text(
+                'Trending',
+                style: TextStyle(
+                    color: Color(0xFF442C2E),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              Expanded(child: SizedBox()),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 18,
+                ),
+              )
+            ],
           ),
         ),
         Container(height: 210, child: Trending()),
