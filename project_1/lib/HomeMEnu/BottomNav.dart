@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_1/BookMark.dart';
+import 'package:project_1/BookTable.dart';
 import 'package:project_1/HomeMEnu/HomePage.dart';
 import 'package:project_1/MenuPage/MenuPage.dart';
 import 'package:project_1/Profile.dart';
@@ -12,7 +12,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int selectedIndex = 0;
-  List<Widget> childWidget = [HomePage(), MenuPage(), Bookmark(), Profile()];
+  List<Widget> childWidget = [HomePage(), MenuPage(), Booking(), Profile()];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         MenuPage();
         break;
       case 2:
-        Bookmark();
+        Booking();
         break;
       case 3:
         Profile();
