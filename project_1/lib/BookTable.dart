@@ -12,7 +12,9 @@ class _BookingState extends State<Booking> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
             icon: Icon(
               Icons.arrow_back,
               color: Color(0xff442c2e),

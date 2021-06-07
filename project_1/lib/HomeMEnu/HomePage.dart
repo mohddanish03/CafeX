@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:project_1/Auth/Login.dart';
+import 'package:project_1/Auth/Registration.dart';
+import 'package:project_1/BookTable.dart';
 import 'package:project_1/HomeMEnu/MostPop.dart';
 import 'package:project_1/HomeMEnu/Trending.dart';
-import 'package:project_1/MenuPage/MenuPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           'Caferteria',
@@ -110,7 +113,7 @@ Widget rowItemCard(BuildContext context) {
         child: GestureDetector(
           onTap: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => MenuPage()));
+                .push(MaterialPageRoute(builder: (context) => Booking()));
           },
           child: Container(
             padding: EdgeInsets.all(2.0),
@@ -121,19 +124,31 @@ Widget rowItemCard(BuildContext context) {
         ),
       ),
       Expanded(
-        child: Container(
-          padding: EdgeInsets.all(2.0),
-          height: 90,
-          width: 90,
-          child: Image.asset('assets/extra.png'),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Registration()));
+          },
+          child: Container(
+            padding: EdgeInsets.all(2.0),
+            height: 90,
+            width: 90,
+            child: Image.asset('assets/extra.png'),
+          ),
         ),
       ),
       Expanded(
-        child: Container(
-          padding: EdgeInsets.all(2.0),
-          height: 90,
-          width: 90,
-          child: Image.asset('assets/gallery.png'),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Login()));
+          },
+          child: Container(
+            padding: EdgeInsets.all(2.0),
+            height: 90,
+            width: 90,
+            child: Image.asset('assets/gallery.png'),
+          ),
         ),
       ),
     ],
