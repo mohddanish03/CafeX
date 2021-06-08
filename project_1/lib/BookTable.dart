@@ -7,6 +7,20 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> {
+  List<String> _timings = [
+    '2:00',
+    '3:00',
+    '4:00',
+    '4:30',
+    '5:00',
+    '5:30',
+    '6:00',
+    '6:30',
+    '7:00',
+    '8:00'
+  ];
+  List<Widget> chips = [];
+  bool _selected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +88,6 @@ class _BookingState extends State<Booking> {
                   ],
                 ),
               ),
-
               //Time card
               Card(
                 color: Color(0xFFFDFBFB),
@@ -96,7 +109,46 @@ class _BookingState extends State<Booking> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      timeChips(context)
+                      //Timings
+                      Wrap(
+                        children: _timings.asMap().entries.map((entry) {
+                          int index = entry.key;
+                          String txt = entry.value;
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: ChoiceChip(
+                              label: Text(
+                                txt,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color(0xff442c2e),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              selectedColor: Colors.green,
+                              backgroundColor: _selected
+                                  ? Color(0xfffedbd0)
+                                  : Color(0xff442c2e),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Color(0xff442c2e), width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              selected: false,
+                              onSelected: (selected) {
+                                setState(() {
+                                  print(selected);
+                                  if (selected == false) {
+                                    _selected = selected;
+                                    print("this is my index :$index");
+                                    print(_selected);
+                                  }
+                                  print(txt);
+                                });
+                              },
+                            ),
+                          );
+                        }).toList(),
+                      )
                     ],
                   ),
                 ),

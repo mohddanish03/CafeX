@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                 'Trending',
                 style: TextStyle(
                     color: Color(0xFF442C2E),
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold),
               ),
               Expanded(child: SizedBox()),
