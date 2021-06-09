@@ -44,7 +44,7 @@ class _TrendingState extends State<Trending> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0)),
             child: Container(
-              color: Color(0xFFFEDBD0),
+              color: Color(0xFFFFFFFF),
               height: 130,
               width: 140,
               child: Column(

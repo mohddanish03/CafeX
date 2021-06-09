@@ -140,7 +140,7 @@ Widget starter(BuildContext context) {
                       padding: const EdgeInsets.all(15.0),
                       child: Text(data[index].name,
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF442c2e))),
                     ),
@@ -151,7 +151,7 @@ Widget starter(BuildContext context) {
                     ),
                     Text(data[index].rating.toString(),
                         style:
-                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                            TextStyle(fontSize: 14, color: Color(0xFF442c2e))),
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
@@ -241,7 +241,7 @@ Widget seaFood(BuildContext context) {
                       padding: const EdgeInsets.all(15.0),
                       child: Text(data[index].name,
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF442c2e))),
                     ),
@@ -252,7 +252,7 @@ Widget seaFood(BuildContext context) {
                     ),
                     Text(data[index].rating.toString(),
                         style:
-                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                            TextStyle(fontSize: 14, color: Color(0xFF442c2e))),
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
@@ -342,7 +342,7 @@ Widget dessert(BuildContext context) {
                       padding: const EdgeInsets.all(15.0),
                       child: Text(data[index].name,
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF442c2e))),
                     ),
@@ -353,7 +353,7 @@ Widget dessert(BuildContext context) {
                     ),
                     Text(data[index].rating.toString(),
                         style:
-                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                            TextStyle(fontSize: 14, color: Color(0xFF442c2e))),
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
@@ -440,7 +440,7 @@ Widget soup(BuildContext context) {
                       padding: const EdgeInsets.all(15.0),
                       child: Text(data[index].name,
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF442c2e))),
                     ),
@@ -451,7 +451,7 @@ Widget soup(BuildContext context) {
                     ),
                     Text(data[index].rating.toString(),
                         style:
-                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                            TextStyle(fontSize: 14, color: Color(0xFF442c2e))),
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
@@ -540,7 +540,7 @@ Widget juice(BuildContext context) {
                       padding: const EdgeInsets.all(15.0),
                       child: Text(data[index].name,
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF442c2e))),
                     ),
@@ -551,7 +551,7 @@ Widget juice(BuildContext context) {
                     ),
                     Text(data[index].rating.toString(),
                         style:
-                            TextStyle(fontSize: 16, color: Color(0xFF442c2e))),
+                            TextStyle(fontSize: 14, color: Color(0xFF442c2e))),
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),

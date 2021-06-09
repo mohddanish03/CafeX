@@ -16,6 +16,7 @@ class _ProfileState extends State<Profile> {
         ),
         body: ListView(
           children: [
+            SizedBox(height: 10),
             Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
@@ -25,7 +26,7 @@ class _ProfileState extends State<Profile> {
                     child: Container(
                       //replace this Container with your Card
                       color: Color(0xffFEDBD0),
-                      height: 140.0,
+                      height: 140,
                       width: MediaQuery.of(context).size.width / 1.1,
                       child: Column(
                         children: [

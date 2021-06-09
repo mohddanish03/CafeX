@@ -44,7 +44,7 @@ class _MostPopularState extends State<MostPopular> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0)),
             child: Container(
-              color: Color(0xFFFEDBD0),
+              color: Color(0xFFF8F8F8),
               height: 130,
               width: 140,
               child: Column(
