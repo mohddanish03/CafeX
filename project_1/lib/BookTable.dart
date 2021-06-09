@@ -236,3 +236,70 @@ class _BookingState extends State<Booking> {
     );
   }
 }
+
+Widget crds(BuildContext context) {
+   Card(
+              color: Color(0xFFFDFBFB),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                height: 80,
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: Text(
+                        'Number of Guests',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Color(0xff442c2e),
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(width: 30),
+                    Expanded(
+                      child: Container(
+                        height: 40,
+                        width: 50,
+                        color: Color(0xFFFEdBD0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (guestno <= 8) guestno++;
+                                  });
+                                },
+                                icon: Icon(Icons.add)),
+                            Container(
+                              height: 40,
+                              width: 50,
+                              color: Colors.white,
+                              child: Center(
+                                child: Text(
+                                  '${guestno.toString()}',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xff442c2e),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (guestno >= 1) guestno--;
+                                  });
+                                },
+                                icon: Icon(Icons.remove))
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+}
+
