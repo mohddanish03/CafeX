@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class Booking extends StatefulWidget {
@@ -23,6 +25,13 @@ class _BookingState extends State<Booking> {
   int _selectedIndex = 0;
   int guestno = 1;
 
+  Future<void> addToDatabase() async {
+    await Firebase.initializeApp();
+    CollectionReference ref =
+        FirebaseFirestore.instance.collection("BookTable");
+    ref.doc().set({"date": "Date", "time": "Time", "guests": guestno});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,17 +55,15 @@ class _BookingState extends State<Booking> {
         child: Column(
           children: [
             SizedBox(height: 15),
-            Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Table Reservation',
-                  style: TextStyle(
-                      fontSize: 21,
-                      color: Color(0xff442c2e),
-                      fontWeight: FontWeight.bold),
-                )),
+            Text(
+              'Cafeteria',
+              style: TextStyle(
+                  fontSize: 21,
+                  color: Color(0xff442c2e),
+                  fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10),
-            //Date card-+
+            //Date card
             Card(
               color: Color(0xFFFCFBFA),
               child: Column(
@@ -85,16 +92,17 @@ class _BookingState extends State<Booking> {
                       setState(() {});
                     }),
                   ),
-                  SizedBox(height: 10)
+                  SizedBox(height: 20)
                 ],
               ),
             ),
+            SizedBox(height: 10),
             //Time card
             Card(
               color: Color(0xFFFDFBFB),
               child: Container(
                 padding: EdgeInsets.all(10),
-                height: 170,
+                height: MediaQuery.of(context).size.height / 4,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +124,7 @@ class _BookingState extends State<Booking> {
                         int index = entry.key;
                         String txt = entry.value;
                         return Padding(
-                          padding: const EdgeInsets.only(right: 18.0),
+                          padding: const EdgeInsets.only(right: 10.0),
                           child: ChoiceChip(
                             label: Text(
                               txt,
@@ -147,6 +155,7 @@ class _BookingState extends State<Booking> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
             //Guest Card
             Card(
               color: Color(0xFFFDFBFB),
@@ -157,54 +166,58 @@ class _BookingState extends State<Booking> {
                 child: Row(
                   children: [
                     SizedBox(width: 20),
-                    Expanded(
-                      child: Text(
-                        'Number of Guests',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0xff442c2e),
-                            fontWeight: FontWeight.bold),
-                      ),
+                    Text(
+                      'Number of Guests',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff442c2e),
+                          fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 30),
+                    SizedBox(width: 60),
                     Expanded(
-                      child: Container(
-                        height: 40,
-                        width: 50,
-                        color: Color(0xFFFEdBD0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 35,
+                            width: 35,
+                            color: Color(0xFFfedbd0),
+                            child: IconButton(
+                                iconSize: 18,
                                 onPressed: () {
                                   setState(() {
-                                    if (guestno <= 8) guestno++;
+                                    if (guestno < 8) guestno++;
                                   });
                                 },
                                 icon: Icon(Icons.add)),
-                            Container(
-                              height: 40,
-                              width: 50,
-                              color: Colors.white,
-                              child: Center(
-                                child: Text(
-                                  '${guestno.toString()}',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Color(0xff442c2e),
-                                      fontWeight: FontWeight.bold),
-                                ),
+                          ),
+                          Container(
+                            height: 35,
+                            width: 35,
+                            color: Colors.white,
+                            child: Center(
+                              child: Text(
+                                '${guestno.toString()}',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xff442c2e),
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
-                            IconButton(
+                          ),
+                          Container(
+                            height: 35,
+                            width: 35,
+                            color: Color(0xFFfedbd0),
+                            child: IconButton(
+                                iconSize: 18,
                                 onPressed: () {
                                   setState(() {
-                                    if (guestno >= 1) guestno--;
+                                    if (guestno > 1) guestno--;
                                   });
                                 },
-                                icon: Icon(Icons.remove))
-                          ],
-                        ),
+                                icon: Icon(Icons.remove)),
+                          )
+                        ],
                       ),
                     )
                   ],
@@ -213,7 +226,9 @@ class _BookingState extends State<Booking> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                addToDatabase();
+              },
               child: Text(
                 'Book Now',
                 style: TextStyle(
@@ -236,70 +251,3 @@ class _BookingState extends State<Booking> {
     );
   }
 }
-
-Widget crds(BuildContext context) {
-   Card(
-              color: Color(0xFFFDFBFB),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                height: 80,
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Expanded(
-                      child: Text(
-                        'Number of Guests',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0xff442c2e),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(width: 30),
-                    Expanded(
-                      child: Container(
-                        height: 40,
-                        width: 50,
-                        color: Color(0xFFFEdBD0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (guestno <= 8) guestno++;
-                                  });
-                                },
-                                icon: Icon(Icons.add)),
-                            Container(
-                              height: 40,
-                              width: 50,
-                              color: Colors.white,
-                              child: Center(
-                                child: Text(
-                                  '${guestno.toString()}',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Color(0xff442c2e),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (guestno >= 1) guestno--;
-                                  });
-                                },
-                                icon: Icon(Icons.remove))
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-}
-
