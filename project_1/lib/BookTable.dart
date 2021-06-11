@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:project_1/Profile.dart';
 
 class Booking extends StatefulWidget {
   @override
@@ -23,13 +24,15 @@ class _BookingState extends State<Booking> {
   ];
   List<Widget> chips = [];
   int _selectedIndex = 0;
-  int guestno = 1;
+  int guest = 1;
+  late String _date;
+  late String _time;
 
   Future<void> addToDatabase() async {
     await Firebase.initializeApp();
     CollectionReference ref =
         FirebaseFirestore.instance.collection("BookTable");
-    ref.doc().set({"date": "Date", "time": "Time", "guests": guestno});
+    ref.doc().set({"Date":_date, "Time": _time, "Guests": guest});
   }
 
   @override
@@ -89,7 +92,11 @@ class _BookingState extends State<Booking> {
                         selectedTextColor: Color(0xff442c2e),
                         onDateChange: (date) {
                       // New date selected
-                      setState(() {});
+                      setState(() {
+                        String dates = date.toString();
+                        String excDate  = dates.substring(0,11);
+                        _date = excDate.toString();
+                      });
                     }),
                   ),
                   SizedBox(height: 20)
@@ -144,7 +151,7 @@ class _BookingState extends State<Booking> {
                             onSelected: (selected) {
                               setState(() {
                                 _selectedIndex = selected ? index : 0;
-                                print("${selected}and ${_selectedIndex}");
+                                _time = txt;
                               });
                             },
                           ),
@@ -185,7 +192,13 @@ class _BookingState extends State<Booking> {
                                 iconSize: 18,
                                 onPressed: () {
                                   setState(() {
-                                    if (guestno < 8) guestno++;
+                                    if (guest < 8) guest++;
+                                    else if(guest ==8){
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        content: Text('Maximum 8 guests'),
+
+                                      ));
+                                    }
                                   });
                                 },
                                 icon: Icon(Icons.add)),
@@ -196,7 +209,7 @@ class _BookingState extends State<Booking> {
                             color: Colors.white,
                             child: Center(
                               child: Text(
-                                '${guestno.toString()}',
+                                '${guest.toString()}',
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Color(0xff442c2e),
@@ -212,7 +225,13 @@ class _BookingState extends State<Booking> {
                                 iconSize: 18,
                                 onPressed: () {
                                   setState(() {
-                                    if (guestno > 1) guestno--;
+                                    if (guest >1) guest--;
+                                    else if(guest ==1){
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        content: Text('Minimum 1 guest'),
+
+                                      ));
+                                    }
                                   });
                                 },
                                 icon: Icon(Icons.remove)),
@@ -227,8 +246,7 @@ class _BookingState extends State<Booking> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                addToDatabase();
-              },
+                addToDatabase().whenComplete(() => Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Profile())));              },
               child: Text(
                 'Book Now',
                 style: TextStyle(
