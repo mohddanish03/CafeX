@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:project_1/Auth/Login.dart';
 import 'package:project_1/Auth/Registration.dart';
-import 'package:project_1/BookTable.dart';
-import 'package:project_1/HomeMEnu/MostPop.dart';
-import 'package:project_1/HomeMEnu/Trending.dart';
-
+import 'package:project_1/Bookings/BookTable.dart';
+import 'package:project_1/Home/MostPop.dart';
+import 'package:project_1/Home/Trending.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();

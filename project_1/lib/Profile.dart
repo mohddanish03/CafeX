@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_1/Bookings/MyBookings.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -71,7 +72,11 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     ListTile(
-                        title: Text('Bookings'),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MyBookings()));
+                        },
+                        title: Text('My Reservatrions'),
                         trailing: Icon(
                           Icons.arrow_forward_ios,
                           size: 18,
