@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class MyBookings extends StatefulWidget {
@@ -8,8 +7,8 @@ class MyBookings extends StatefulWidget {
 }
 
 class _MyBookingsState extends State<MyBookings> {
-  String _cancel = "Cancel Reservation";
   bool isClicked = false;
+  var _userData;
 
   //showDialog
   Future<void> _showMyDialog(BuildContext context) async {
@@ -23,14 +22,21 @@ class _MyBookingsState extends State<MyBookings> {
           content: SingleChildScrollView(
             child: ListBody(
               children: const <Widget>[
-                Text('Are you sure ?'),
-                Text('You want to cancel this booking'),
+                Text(
+                  'Are you sure ?',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  'You want to delete this booking',
+                  style: TextStyle(fontSize: 17),
+                ),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('NO',
+              child: const Text('Cancel',
                   style: TextStyle(
                     color: Colors.green,
                   )),
@@ -38,11 +44,12 @@ class _MyBookingsState extends State<MyBookings> {
                 Navigator.of(context).pop();
                 setState(() {
                   isClicked = false;
+                  print(isClicked);
                 });
               },
             ),
             TextButton(
-              child: const Text('YES',
+              child: const Text('Delete',
                   style: TextStyle(
                     color: Colors.red,
                   )),
@@ -58,6 +65,17 @@ class _MyBookingsState extends State<MyBookings> {
         );
       },
     );
+  }
+
+//Delete resevation on cancel
+  void deleteRecord(String docId) {
+    FirebaseFirestore.instance
+        .collection("BookTable")
+        .doc(docId)
+        .delete()
+        .then((value) {
+      print("Deleted $docId" + "value");
+    });
   }
 
   @override
@@ -83,122 +101,130 @@ class _MyBookingsState extends State<MyBookings> {
       body: StreamBuilder<QuerySnapshot>(
         stream: _bookinData.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            ListView.builder(
-                itemCount: snapshot.data.docs.length,
+          if (!snapshot.hasData) {
+            return Center(child: Text("No Bookings"));
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Something went wrong !"),
+            );
+          }
+          if (snapshot.hasData ||
+              snapshot.connectionState == ConnectionState.done) {
+            return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  return ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Container(
-                              height: MediaQuery.of(context).size.height / 3.3,
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  _userData = snapshot.data?.docs[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Container(
+                          height: MediaQuery.of(context).size.height / 3.3,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, bottom: 15.0, top: 5),
+                                  child: Text(
+                                    "Name : Mohammed Danish",
+                                    style: TextStyle(
+                                        color: Color(0xff442c2e), fontSize: 17),
+                                  )),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, bottom: 15.0),
+                                  child: Text(
+                                    "Date   : ${_userData?.get("Date")} ",
+                                    style: TextStyle(
+                                        color: Color(0xff442c2e), fontSize: 17),
+                                  )),
+                              Row(
                                 children: [
-                                  SizedBox(height: 10),
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, bottom: 15.0, top: 5),
-                                      child: Text(
-                                        "Name : Mohammed Danish",
-                                        style: TextStyle(
-                                            color: Color(0xff442c2e),
-                                            fontSize: 17),
-                                      )),
                                   Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20, bottom: 15.0),
                                       child: Text(
-                                        "Date   : 03-06-1999 ",
+                                        "Time  :${_userData?.get("Time")}",
                                         style: TextStyle(
                                             color: Color(0xff442c2e),
                                             fontSize: 17),
                                       )),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 20, bottom: 15.0),
-                                          child: Text(
-                                            "Time  : 03:30 pm",
-                                            style: TextStyle(
-                                                color: Color(0xff442c2e),
-                                                fontSize: 17),
-                                          )),
-                                      SizedBox(width: 40),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 20, bottom: 15.0),
-                                          child: Text(
-                                            "Guest  : 6 peoples ",
-                                            style: TextStyle(
-                                                color: Color(0xff442c2e),
-                                                fontSize: 17),
-                                          )),
-                                    ],
+                                  SizedBox(width: 40),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, bottom: 15.0),
+                                      child: Text(
+                                        "Guest  : ${_userData?.get("Guests")} ",
+                                        style: TextStyle(
+                                            color: Color(0xff442c2e),
+                                            fontSize: 17),
+                                      )),
+                                ],
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, bottom: 15.0),
+                                  child: Text(
+                                    "Booking Id :${_userData?.id} ",
+                                    style: TextStyle(
+                                        color: Color(0xff442c2e), fontSize: 17),
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20, bottom: 15.0),
+                                child: Center(
+                                    child: ElevatedButton(
+                                  onPressed: () {
+                                    print('dailog');
+                                    _showMyDialog(context);
+                                    setState(() {
+                                      isClicked = false;
+                                    });
+                                    if (isClicked == true) {
+                                      deleteRecord(_userData.id);
+                                      print('deleted');
+                                    }
+                                  },
+                                  child: Text(
+                                    "Cancel Booking",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xff442c2e),
+                                    ),
                                   ),
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, bottom: 15.0),
-                                      child: Text(
-                                        "Booking Id : AUIO5767",
-                                        style: TextStyle(
-                                            color: Color(0xff442c2e),
-                                            fontSize: 17),
-                                      )),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20, bottom: 15.0),
-                                    child: Center(
-                                        child: ElevatedButton(
-                                      onPressed: isClicked
-                                          ? null
-                                          : () {
-                                              print('dailog');
-                                              _showMyDialog(context);
-                                              setState(() {
-                                                isClicked = false;
-                                                if (isClicked == true) {
-                                                  _cancel = "Cancelled";
-                                                }
-                                              });
-                                            },
-                                      child: Text(
-                                        _cancel,
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          color: Color(0xff442c2e),
-                                        ),
-                                      ),
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty
-                                            .all<EdgeInsets>(EdgeInsets.only(
+                                  style: ButtonStyle(
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.only(
                                                 left: 50,
                                                 right: 50,
                                                 top: 10,
                                                 bottom: 10)),
-                                        elevation: MaterialStateProperty.all(8),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                isClicked
-                                                    ? Color(0xFFC7C5C5)
-                                                    : Color(0xfffedbd0)),
-                                      ),
-                                    )),
+                                    elevation: MaterialStateProperty.all(8),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Color(0xfffedbd0)),
                                   ),
-                                ],
-                              )),
-                        ),
-                      ),
-                    ],
+                                )),
+                              ),
+                            ],
+                          )),
+                    ),
                   );
                 });
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              !snapshot.hasData) {
+            // Handle no data
+            return Center(
+              child: Text("No Data found."),
+            );
           }
+          return CircularProgressIndicator();
         },
       ),
     );
