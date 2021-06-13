@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:project_1/Profile.dart';
+import 'package:project_1/Bookings/OrderConfirmed.dart';
 
 class Booking extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _BookingState extends State<Booking> {
     await Firebase.initializeApp();
     CollectionReference ref =
         FirebaseFirestore.instance.collection("BookTable");
-    ref.doc().set({"Date":_date, "Time": _time, "Guests": guest});
+    ref.doc().set({"Date": _date, "Time": _time, "Guests": guest});
   }
 
   @override
@@ -94,7 +94,7 @@ class _BookingState extends State<Booking> {
                       // New date selected
                       setState(() {
                         String dates = date.toString();
-                        String excDate  = dates.substring(0,11);
+                        String excDate = dates.substring(0, 11);
                         _date = excDate.toString();
                       });
                     }),
@@ -192,11 +192,12 @@ class _BookingState extends State<Booking> {
                                 iconSize: 18,
                                 onPressed: () {
                                   setState(() {
-                                    if (guest < 8) guest++;
-                                    else if(guest ==8){
-                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    if (guest < 8)
+                                      guest++;
+                                    else if (guest == 8) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
                                         content: Text('Maximum 8 guests'),
-
                                       ));
                                     }
                                   });
@@ -225,11 +226,12 @@ class _BookingState extends State<Booking> {
                                 iconSize: 18,
                                 onPressed: () {
                                   setState(() {
-                                    if (guest >1) guest--;
-                                    else if(guest ==1){
-                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    if (guest > 1)
+                                      guest--;
+                                    else if (guest == 1) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
                                         content: Text('Minimum 1 guest'),
-
                                       ));
                                     }
                                   });
@@ -246,7 +248,9 @@ class _BookingState extends State<Booking> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                addToDatabase().whenComplete(() => Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Profile())));              },
+                addToDatabase().whenComplete(() => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Confirmed())));
+              },
               child: Text(
                 'Book Now',
                 style: TextStyle(

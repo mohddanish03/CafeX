@@ -9,7 +9,7 @@ class MyBookings extends StatefulWidget {
 class _MyBookingsState extends State<MyBookings> {
   bool isClicked = false;
   var _userData;
-
+  late String docID;
   //showDialog
   Future<void> _showMyDialog(BuildContext context) async {
     return await showDialog<void>(
@@ -57,7 +57,9 @@ class _MyBookingsState extends State<MyBookings> {
                 Navigator.of(context).pop();
                 setState(() {
                   isClicked = true;
-                  print(isClicked);
+                  if (isClicked == true) {
+                    deleteRecord(docID);
+                  }
                 });
               },
             ),
@@ -68,14 +70,14 @@ class _MyBookingsState extends State<MyBookings> {
   }
 
 //Delete resevation on cancel
-  void deleteRecord(String docId) {
-    FirebaseFirestore.instance
-        .collection("BookTable")
+  CollectionReference _bookTable =
+      FirebaseFirestore.instance.collection('BookTable');
+  Future<void> deleteRecord(String docId) {
+    return _bookTable
         .doc(docId)
         .delete()
-        .then((value) {
-      print("Deleted $docId" + "value");
-    });
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
   }
 
   @override
@@ -121,97 +123,68 @@ class _MyBookingsState extends State<MyBookings> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       child: Container(
-                          height: MediaQuery.of(context).size.height / 3.3,
+                          height: MediaQuery.of(context).size.height / 4,
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 10),
+                              Padding(
+                                padding: EdgeInsets.only(left: 20, top: 5),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        "Booked on : 09-09-9090",
+                                        style: TextStyle(
+                                            color: Color(0xff442c2e),
+                                            fontSize: 17),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    IconButton(
+                                        onPressed: () {
+                                          print('dailog');
+                                          _showMyDialog(context);
+                                          docID = _userData.id;
+                                        },
+                                        icon: Icon(Icons.delete_forever_rounded,
+                                            color: Colors.red))
+                                  ],
+                                ),
+                              ),
                               Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20, bottom: 15.0, top: 5),
+                                      left: 20, bottom: 10.0),
                                   child: Text(
-                                    "Name : Mohammed Danish",
+                                    "Time  :${_userData?.get("Time")}",
+                                    style: TextStyle(
+                                        color: Color(0xff442c2e), fontSize: 17),
+                                  )),
+                              SizedBox(width: 40),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, bottom: 10.0),
+                                  child: Text(
+                                    "Guest  : ${_userData?.get("Guests")} ",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
                               Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20, bottom: 15.0),
+                                      left: 20, bottom: 10.0),
                                   child: Text(
                                     "Date   : ${_userData?.get("Date")} ",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
-                              Row(
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, bottom: 15.0),
-                                      child: Text(
-                                        "Time  :${_userData?.get("Time")}",
-                                        style: TextStyle(
-                                            color: Color(0xff442c2e),
-                                            fontSize: 17),
-                                      )),
-                                  SizedBox(width: 40),
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, bottom: 15.0),
-                                      child: Text(
-                                        "Guest  : ${_userData?.get("Guests")} ",
-                                        style: TextStyle(
-                                            color: Color(0xff442c2e),
-                                            fontSize: 17),
-                                      )),
-                                ],
-                              ),
                               Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20, bottom: 15.0),
+                                      left: 20, bottom: 10.0),
                                   child: Text(
                                     "Booking Id :${_userData?.id} ",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20, bottom: 15.0),
-                                child: Center(
-                                    child: ElevatedButton(
-                                  onPressed: () {
-                                    print('dailog');
-                                    _showMyDialog(context);
-                                    setState(() {
-                                      isClicked = false;
-                                    });
-                                    if (isClicked == true) {
-                                      deleteRecord(_userData.id);
-                                      print('deleted');
-                                    }
-                                  },
-                                  child: Text(
-                                    "Cancel Booking",
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      color: Color(0xff442c2e),
-                                    ),
-                                  ),
-                                  style: ButtonStyle(
-                                    padding:
-                                        MaterialStateProperty.all<EdgeInsets>(
-                                            EdgeInsets.only(
-                                                left: 50,
-                                                right: 50,
-                                                top: 10,
-                                                bottom: 10)),
-                                    elevation: MaterialStateProperty.all(8),
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Color(0xfffedbd0)),
-                                  ),
-                                )),
-                              ),
                             ],
                           )),
                     ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_1/Bookings/MyBookings.dart';
+import 'package:project_1/Home/BottomNav.dart';
 
 class Confirmed extends StatefulWidget {
   @override
@@ -38,9 +40,19 @@ class _ConfirmedState extends State<Confirmed> {
                   fontWeight: FontWeight.bold),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => MyBookings()));
+                },
                 child: Text("View Order Summary",
-                    style: TextStyle(fontSize: 16, color: Color(0xfff50057))))
+                    style: TextStyle(fontSize: 16, color: Color(0xfff50057)))),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => BottomNavigation()));
+                },
+                child: Text("Back to Home",
+                    style: TextStyle(fontSize: 15, color: Color(0xfff50057))))
           ],
         ),
       ),
