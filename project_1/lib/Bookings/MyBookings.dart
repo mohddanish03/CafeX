@@ -135,7 +135,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        "Booking Id :${_userData?.id}",
+                                        "Booking Id : ${_userData?.id}",
                                         style: TextStyle(
                                             color: Color(0xff442c2e),
                                             fontSize: 17),
