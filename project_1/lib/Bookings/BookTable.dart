@@ -71,7 +71,6 @@ class _BookingState extends State<Booking> {
                   color: Color(0xff442c2e),
                   fontWeight: FontWeight.bold),
             ),
-
             //Date card
             Card(
               color: Color(0xFFFCFBFA),
@@ -92,7 +91,7 @@ class _BookingState extends State<Booking> {
                     padding: EdgeInsets.all(10),
                     child: DatePicker(DateTime.now(),
                         width: 65,
-                        height: 80,
+                        height: 100,
                         initialSelectedDate: DateTime.now(),
                         selectionColor: Color(0xfffedbd0),
                         selectedTextColor: Color(0xff442c2e),
@@ -105,17 +104,17 @@ class _BookingState extends State<Booking> {
                       });
                     }),
                   ),
-                  SizedBox(height: 10)
+                  SizedBox(height: 20)
                 ],
               ),
             ),
-
+            SizedBox(height: 10),
             //Time card
             Card(
               color: Color(0xFFFDFBFB),
               child: Container(
                 padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height / 4.5,
+                height: MediaQuery.of(context).size.height / 4.2,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,6 +167,7 @@ class _BookingState extends State<Booking> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
             //Select Location
             Card(
               color: Color(0xfffdfbfb),
@@ -177,44 +177,50 @@ class _BookingState extends State<Booking> {
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
-                    SizedBox(width: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButton<String>(
-                        value: _chosenValue,
-                        //elevation: 5,
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                        iconEnabledColor: Colors.black,
-                        items: <String>[
-                          'Bhatkal',
-                          'Kundapur',
-                          'Udupi',
-                          'Manglore',
-                          'Mysore',
-                          'Banglore',
-                          'Mumbai',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
+                    SizedBox(width: 20),
+                    DropdownButton<String>(
+                      underline: SizedBox(),
+                      autofocus: true,
+                      dropdownColor: Color(0xfffedbd0),
+                      value: _chosenValue,
+                      //elevation: 5,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600),
+                      iconEnabledColor: Color(0xff442c2e),
+                      items: <String>[
+                        'Bhatkal',
+                        'Kundapur',
+                        'Udupi',
+                        'Manglore',
+                        'Mysore',
+                        'Banglore',
+                        'Mumbai',
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               value,
                               style: TextStyle(color: Colors.black),
                             ),
-                          );
-                        }).toList(),
-                        hint: Text(
-                          "Select Location",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            _chosenValue = value;
-                          });
-                        },
+                          ),
+                        );
+                      }).toList(),
+                      hint: Text(
+                        "Select Location",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _chosenValue = value;
+                        });
+                      },
                     ),
                     SizedBox(width: 80),
                     if (_chosenValue != null)
@@ -229,6 +235,7 @@ class _BookingState extends State<Booking> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
             //Guest Card
             Card(
               color: Color(0xFFFDFBFB),

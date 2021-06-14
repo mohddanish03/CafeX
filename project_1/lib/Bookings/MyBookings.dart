@@ -135,7 +135,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        "Booked on :",
+                                        "Booking Id :${_userData?.id}",
                                         style: TextStyle(
                                             color: Color(0xff442c2e),
                                             fontSize: 17),
@@ -157,7 +157,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   padding: const EdgeInsets.only(
                                       left: 20, bottom: 10.0),
                                   child: Text(
-                                    "Time  :${_userData?.get("Time")} pm",
+                                    "Time  : ${_userData?.get("Time")} pm",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
@@ -174,7 +174,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   padding: const EdgeInsets.only(
                                       left: 20, bottom: 10.0),
                                   child: Text(
-                                    "Reserved on : ${_userData?.get("Date")} ",
+                                    "Location : ${_userData?.get("location")} ",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
@@ -182,7 +182,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   padding: const EdgeInsets.only(
                                       left: 20, bottom: 10.0),
                                   child: Text(
-                                    "Booking Id :${_userData?.id} ",
+                                    "Reserved on : ${_userData?.get("Date")} ",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
@@ -192,7 +192,7 @@ class _MyBookingsState extends State<MyBookings> {
                   );
                 });
           }
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );
