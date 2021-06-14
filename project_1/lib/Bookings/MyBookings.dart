@@ -10,6 +10,7 @@ class _MyBookingsState extends State<MyBookings> {
   bool isClicked = false;
   var _userData;
   late String docID;
+
   //showDialog
   Future<void> _showMyDialog(BuildContext context) async {
     return await showDialog<void>(
@@ -103,7 +104,7 @@ class _MyBookingsState extends State<MyBookings> {
       body: StreamBuilder<QuerySnapshot>(
         stream: _bookinData.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done) {
             return Center(child: Text("No Bookings"));
           }
           if (snapshot.hasError) {
@@ -134,7 +135,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        "Booked on : 09-09-9090",
+                                        "Booked on :",
                                         style: TextStyle(
                                             color: Color(0xff442c2e),
                                             fontSize: 17),
@@ -156,7 +157,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   padding: const EdgeInsets.only(
                                       left: 20, bottom: 10.0),
                                   child: Text(
-                                    "Time  :${_userData?.get("Time")}",
+                                    "Time  :${_userData?.get("Time")} pm",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
@@ -165,7 +166,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   padding: const EdgeInsets.only(
                                       left: 20, bottom: 10.0),
                                   child: Text(
-                                    "Guest  : ${_userData?.get("Guests")} ",
+                                    "Guest  : ${_userData?.get("Guests")} members ",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
@@ -173,7 +174,7 @@ class _MyBookingsState extends State<MyBookings> {
                                   padding: const EdgeInsets.only(
                                       left: 20, bottom: 10.0),
                                   child: Text(
-                                    "Date   : ${_userData?.get("Date")} ",
+                                    "Reserved on : ${_userData?.get("Date")} ",
                                     style: TextStyle(
                                         color: Color(0xff442c2e), fontSize: 17),
                                   )),
@@ -190,12 +191,6 @@ class _MyBookingsState extends State<MyBookings> {
                     ),
                   );
                 });
-          } else if (snapshot.connectionState == ConnectionState.done &&
-              !snapshot.hasData) {
-            // Handle no data
-            return Center(
-              child: Text("No Data found."),
-            );
           }
           return CircularProgressIndicator();
         },

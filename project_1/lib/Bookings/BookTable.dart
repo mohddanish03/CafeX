@@ -27,12 +27,19 @@ class _BookingState extends State<Booking> {
   int guest = 1;
   late String _date;
   late String _time;
+  //Dropdown list
+  String? _chosenValue;
 
   Future<void> addToDatabase() async {
     await Firebase.initializeApp();
     CollectionReference ref =
         FirebaseFirestore.instance.collection("BookTable");
-    ref.doc().set({"Date": _date, "Time": _time, "Guests": guest});
+    ref.doc().set({
+      "Date": _date,
+      "Time": _time,
+      "location": _chosenValue,
+      "Guests": guest
+    });
   }
 
   @override
@@ -57,7 +64,6 @@ class _BookingState extends State<Booking> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            SizedBox(height: 15),
             Text(
               'Cafeteria',
               style: TextStyle(
@@ -65,7 +71,7 @@ class _BookingState extends State<Booking> {
                   color: Color(0xff442c2e),
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+
             //Date card
             Card(
               color: Color(0xFFFCFBFA),
@@ -86,7 +92,7 @@ class _BookingState extends State<Booking> {
                     padding: EdgeInsets.all(10),
                     child: DatePicker(DateTime.now(),
                         width: 65,
-                        height: 100,
+                        height: 80,
                         initialSelectedDate: DateTime.now(),
                         selectionColor: Color(0xfffedbd0),
                         selectedTextColor: Color(0xff442c2e),
@@ -99,17 +105,17 @@ class _BookingState extends State<Booking> {
                       });
                     }),
                   ),
-                  SizedBox(height: 20)
+                  SizedBox(height: 10)
                 ],
               ),
             ),
-            SizedBox(height: 10),
+
             //Time card
             Card(
               color: Color(0xFFFDFBFB),
               child: Container(
                 padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.height / 4,
+                height: MediaQuery.of(context).size.height / 4.5,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +168,67 @@ class _BookingState extends State<Booking> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            //Select Location
+            Card(
+              color: Color(0xfffdfbfb),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                height: 70,
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: [
+                    SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<String>(
+                        value: _chosenValue,
+                        //elevation: 5,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        iconEnabledColor: Colors.black,
+                        items: <String>[
+                          'Bhatkal',
+                          'Kundapur',
+                          'Udupi',
+                          'Manglore',
+                          'Mysore',
+                          'Banglore',
+                          'Mumbai',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          );
+                        }).toList(),
+                        hint: Text(
+                          "Select Location",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _chosenValue = value;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 80),
+                    if (_chosenValue != null)
+                      Text(
+                        _chosenValue.toString(),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
+                  ],
+                ),
+              ),
+            ),
             //Guest Card
             Card(
               color: Color(0xFFFDFBFB),
