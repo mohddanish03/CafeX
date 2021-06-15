@@ -119,75 +119,84 @@ class _MyBookingsState extends State<MyBookings> {
                 itemBuilder: (context, index) {
                   _userData = snapshot.data?.docs[index];
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      child: Container(
-                          height: MediaQuery.of(context).size.height / 4,
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 20, top: 5),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        "Booking Id : ${_userData?.id}",
-                                        style: TextStyle(
-                                            color: Color(0xff442c2e),
-                                            fontSize: 17),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            color: Color(0xfffedbd0),
+                            height: MediaQuery.of(context).size.height / 4.4,
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10, top: 5),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          "Booking Id : ${_userData?.id}",
+                                          style: TextStyle(
+                                              color: Color(0xff442c2e),
+                                              fontSize: 17),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    IconButton(
-                                        onPressed: () {
-                                          print('dailog');
-                                          _showMyDialog(context);
-                                          docID = _userData.id;
-                                        },
-                                        icon: Icon(Icons.delete_forever_rounded,
-                                            color: Colors.red))
-                                  ],
+                                      SizedBox(width: 10),
+                                      IconButton(
+                                          onPressed: () {
+                                            print('dailog');
+                                            _showMyDialog(context);
+                                            docID = _userData.id;
+                                          },
+                                          icon: Icon(
+                                              Icons.delete_forever_rounded,
+                                              color: Colors.red))
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, bottom: 10.0),
-                                  child: Text(
-                                    "Time  : ${_userData?.get("Time")} pm",
-                                    style: TextStyle(
-                                        color: Color(0xff442c2e), fontSize: 17),
-                                  )),
-                              SizedBox(width: 40),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, bottom: 10.0),
-                                  child: Text(
-                                    "Guest  : ${_userData?.get("Guests")} members ",
-                                    style: TextStyle(
-                                        color: Color(0xff442c2e), fontSize: 17),
-                                  )),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, bottom: 10.0),
-                                  child: Text(
-                                    "Location : ${_userData?.get("location")} ",
-                                    style: TextStyle(
-                                        color: Color(0xff442c2e), fontSize: 17),
-                                  )),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, bottom: 10.0),
-                                  child: Text(
-                                    "Reserved on : ${_userData?.get("Date")} ",
-                                    style: TextStyle(
-                                        color: Color(0xff442c2e), fontSize: 17),
-                                  )),
-                            ],
-                          )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, bottom: 10.0),
+                                    child: Text(
+                                      "Time  : ${_userData?.get("Time")} pm",
+                                      style: TextStyle(
+                                          color: Color(0xff442c2e),
+                                          fontSize: 17),
+                                    )),
+                                SizedBox(width: 40),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, bottom: 10.0),
+                                    child: Text(
+                                      "Guest  : ${_userData?.get("Guests")} members ",
+                                      style: TextStyle(
+                                          color: Color(0xff442c2e),
+                                          fontSize: 17),
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, bottom: 10.0),
+                                    child: Text(
+                                      "Location : ${_userData?.get("location")} ",
+                                      style: TextStyle(
+                                          color: Color(0xff442c2e),
+                                          fontSize: 17),
+                                    )),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, bottom: 10.0),
+                                    child: Text(
+                                      "Reserved on : ${_userData?.get("Date")} ",
+                                      style: TextStyle(
+                                          color: Color(0xff442c2e),
+                                          fontSize: 17),
+                                    )),
+                              ],
+                            )),
+                      ),
                     ),
                   );
                 });

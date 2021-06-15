@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_1/BookMark.dart';
+import 'package:project_1/BookMark/BookMark.dart';
 import 'package:project_1/Home/HomePage.dart';
 import 'package:project_1/MenuPage/MenuPage.dart';
-import 'package:project_1/Profile.dart';
+import 'package:project_1/Profile/Profile.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override

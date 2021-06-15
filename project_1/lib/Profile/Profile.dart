@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_1/Bookings/MyBookings.dart';
+import 'package:project_1/Profile/MyBookings.dart';
 
 class Profile extends StatefulWidget {
   @override

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class MenuPage extends StatefulWidget {
@@ -105,6 +107,10 @@ Widget starter(BuildContext context) {
         name: 'Bhuna Chicken Wings',
         rating: 4.1)
   ];
+  late String menuName;
+  late String imgUrl;
+  late double rating;
+  addToDataBase addItem = addToDataBase();
   return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
@@ -113,27 +119,15 @@ Widget starter(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(children: [
-                  Container(
-                    color: Color(0xFFFEEAE6),
-                    height: 220,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      data[index].img,
-                      fit: BoxFit.fill,
-                    ),
+                Container(
+                  color: Color(0xFFFEEAE6),
+                  height: 220,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    data[index].img,
+                    fit: BoxFit.fill,
                   ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.bookmark_border_outlined))))
-                ]),
+                ),
                 Row(
                   children: [
                     Padding(
@@ -155,7 +149,19 @@ Widget starter(BuildContext context) {
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
-                    )
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          menuName = data[index].name;
+                          imgUrl = data[index].img;
+                          rating = data[index].rating;
+                          addItem.addItemToDataBase(
+                              menuName, imgUrl, rating.toInt());
+                        },
+                        icon: Icon(
+                          Icons.bookmark_outline,
+                          color: Color(0xFF442c2e),
+                        ))
                   ],
                 )
               ],
@@ -206,6 +212,10 @@ Widget seaFood(BuildContext context) {
         name: 'Goan Crab Curry',
         rating: 4.1)
   ];
+  late String menuName;
+  late String imgUrl;
+  late double rating;
+  addToDataBase addItem = addToDataBase();
   return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
@@ -214,27 +224,15 @@ Widget seaFood(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(children: [
-                  Container(
-                    color: Color(0xFFFEEAE6),
-                    height: 220,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      data[index].img,
-                      fit: BoxFit.fill,
-                    ),
+                Container(
+                  color: Color(0xFFFEEAE6),
+                  height: 220,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    data[index].img,
+                    fit: BoxFit.fill,
                   ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.bookmark_border_outlined))))
-                ]),
+                ),
                 Row(
                   children: [
                     Padding(
@@ -256,7 +254,19 @@ Widget seaFood(BuildContext context) {
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
-                    )
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          menuName = data[index].name;
+                          imgUrl = data[index].img;
+                          rating = data[index].rating;
+                          addItem.addItemToDataBase(
+                              menuName, imgUrl, rating.toInt());
+                        },
+                        icon: Icon(
+                          Icons.bookmark_outline,
+                          color: Color(0xFF442c2e),
+                        ))
                   ],
                 )
               ],
@@ -307,6 +317,11 @@ Widget dessert(BuildContext context) {
         name: ' Chocolate Truffle',
         rating: 4.1),
   ];
+
+  late String menuName;
+  late String imgUrl;
+  late double rating;
+  addToDataBase addItem = addToDataBase();
   return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
@@ -315,27 +330,15 @@ Widget dessert(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(children: [
-                  Container(
-                    color: Color(0xFFFEEAE6),
-                    height: 220,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      data[index].img,
-                      fit: BoxFit.fill,
-                    ),
+                Container(
+                  color: Color(0xFFFEEAE6),
+                  height: 220,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    data[index].img,
+                    fit: BoxFit.fill,
                   ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.bookmark_border_outlined))))
-                ]),
+                ),
                 Row(
                   children: [
                     Padding(
@@ -357,7 +360,19 @@ Widget dessert(BuildContext context) {
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
-                    )
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          menuName = data[index].name;
+                          imgUrl = data[index].img;
+                          rating = data[index].rating;
+                          addItem.addItemToDataBase(
+                              menuName, imgUrl, rating.toInt());
+                        },
+                        icon: Icon(
+                          Icons.bookmark_outline,
+                          color: Color(0xFF442c2e),
+                        ))
                   ],
                 )
               ],
@@ -405,6 +420,10 @@ Widget soup(BuildContext context) {
         name: ' Cantonese Chicken Soup ',
         rating: 4.0)
   ];
+  late String menuName;
+  late String imgUrl;
+  late double rating;
+  addToDataBase addItem = addToDataBase();
   return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
@@ -413,27 +432,15 @@ Widget soup(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(children: [
-                  Container(
-                    color: Color(0xFFFEEAE6),
-                    height: 220,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      data[index].img,
-                      fit: BoxFit.fill,
-                    ),
+                Container(
+                  color: Color(0xFFFEEAE6),
+                  height: 220,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    data[index].img,
+                    fit: BoxFit.fill,
                   ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.bookmark_border_outlined))))
-                ]),
+                ),
                 Row(
                   children: [
                     Padding(
@@ -455,7 +462,19 @@ Widget soup(BuildContext context) {
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
-                    )
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          menuName = data[index].name;
+                          imgUrl = data[index].img;
+                          rating = data[index].rating;
+                          addItem.addItemToDataBase(
+                              menuName, imgUrl, rating.toInt());
+                        },
+                        icon: Icon(
+                          Icons.bookmark_outline,
+                          color: Color(0xFF442c2e),
+                        ))
                   ],
                 )
               ],
@@ -505,6 +524,10 @@ Widget juice(BuildContext context) {
         name: 'Pomegranate Juice',
         rating: 4.7),
   ];
+  late String menuName;
+  late String imgUrl;
+  late double rating;
+  addToDataBase addItem = addToDataBase();
   return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
@@ -513,27 +536,15 @@ Widget juice(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(children: [
-                  Container(
-                    color: Color(0xFFFEEAE6),
-                    height: 220,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      data[index].img,
-                      fit: BoxFit.fill,
-                    ),
+                Container(
+                  color: Color(0xFFFEEAE6),
+                  height: 220,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    data[index].img,
+                    fit: BoxFit.fill,
                   ),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xFFe0f2f1)),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.bookmark_border_outlined))))
-                ]),
+                ),
                 Row(
                   children: [
                     Padding(
@@ -555,10 +566,30 @@ Widget juice(BuildContext context) {
                     Icon(
                       Icons.star,
                       color: Color(0xfff50057),
-                    )
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          menuName = data[index].name;
+                          imgUrl = data[index].img;
+                          rating = data[index].rating;
+                          addItem.addItemToDataBase(
+                              menuName, imgUrl, rating.toInt());
+                        },
+                        icon: Icon(
+                          Icons.bookmark_outline,
+                          color: Color(0xFF442c2e),
+                        ))
                   ],
                 )
               ],
             ));
       });
+}
+
+class addToDataBase {
+  Future<void> addItemToDataBase(String name, String imgUrl, int rating) async {
+    await Firebase.initializeApp();
+    CollectionReference ref = FirebaseFirestore.instance.collection("BookMark");
+    ref.doc().set({"MenuName": name, "ImageUrl": imgUrl, "Rating": rating});
+  }
 }
