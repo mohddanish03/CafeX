@@ -8,6 +8,7 @@ class Bookmark extends StatefulWidget {
 
 class _BookmarkState extends State<Bookmark> {
   var _menuData;
+  bool isSelecred = false;
 
   CollectionReference _bookMark =
       FirebaseFirestore.instance.collection('BookMark');

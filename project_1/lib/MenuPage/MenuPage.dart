@@ -8,6 +8,13 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  void check() {
+    addToDataBase addItem = addToDataBase();
+    setState(() {
+      addItem.isSelected = !addItem.isSelected;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -155,6 +162,7 @@ Widget starter(BuildContext context) {
                           menuName = data[index].name;
                           imgUrl = data[index].img;
                           rating = data[index].rating;
+
                           addItem.addItemToDataBase(
                               menuName, imgUrl, rating.toInt());
                         },
@@ -260,8 +268,15 @@ Widget seaFood(BuildContext context) {
                           menuName = data[index].name;
                           imgUrl = data[index].img;
                           rating = data[index].rating;
-                          addItem.addItemToDataBase(
-                              menuName, imgUrl, rating.toInt());
+                          addItem.isSelected = !addItem.isSelected;
+                          print(addItem.isSelected);
+                          // if (addItem.isSelected == true) {
+                          //   addItem.addItemToDataBase(
+                          //       menuName, imgUrl, rating.toInt());
+                          //}
+                          if (addItem.isSelected == false) {
+                            addItem.deleteRecord(addItem.docID);
+                          }
                         },
                         icon: Icon(
                           Icons.bookmark_outline,
@@ -587,9 +602,24 @@ Widget juice(BuildContext context) {
 }
 
 class addToDataBase {
+  bool isSelected = true;
+  late String docID;
+
   Future<void> addItemToDataBase(String name, String imgUrl, int rating) async {
     await Firebase.initializeApp();
     CollectionReference ref = FirebaseFirestore.instance.collection("BookMark");
+
     ref.doc().set({"MenuName": name, "ImageUrl": imgUrl, "Rating": rating});
+  }
+
+  CollectionReference _bookMark =
+      FirebaseFirestore.instance.collection('BookMark');
+
+  Future<void> deleteRecord(String docId) {
+    return _bookMark
+        .doc(docId)
+        .delete()
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
   }
 }
