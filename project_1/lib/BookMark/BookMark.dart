@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class Bookmark extends StatefulWidget {
@@ -12,14 +13,6 @@ class _BookmarkState extends State<Bookmark> {
 
   CollectionReference _bookMark =
       FirebaseFirestore.instance.collection('BookMark');
-
-  Future<void> deleteRecord(String docId) {
-    return _bookMark
-        .doc(docId)
-        .delete()
-        .then((value) => print("User Deleted"))
-        .catchError((error) => print("Failed to delete user: $error"));
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +35,7 @@ class _BookmarkState extends State<Bookmark> {
               child: Text("Something went wrong !"),
             );
           }
-          if (snapshot.hasData ||
-              snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
             return GridView.builder(
                 itemCount: snapshot.data?.docs.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,7 +60,7 @@ class _BookmarkState extends State<Bookmark> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.network(
-                                  _menuData.get("ImageUrl"),
+                                  _menuData.get("ImgUrl"),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -108,5 +100,24 @@ class _BookmarkState extends State<Bookmark> {
         },
       ),
     );
+  }
+}
+
+class AddBookMark {
+  Future<void> addToDatabase(String name, String url, double rating) async {
+    await Firebase.initializeApp();
+    CollectionReference ref = FirebaseFirestore.instance.collection("BookMark");
+    ref.doc().set({"MenuName": name, "ImgUrl": url, "Rating": rating});
+  }
+
+  CollectionReference _bookMark =
+      FirebaseFirestore.instance.collection('BookMark');
+
+  Future<void> deleteRecord(String docId) {
+    return _bookMark
+        .doc(docId)
+        .delete()
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
   }
 }

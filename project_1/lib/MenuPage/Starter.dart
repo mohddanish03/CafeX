@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_1/BookMark/BookMark.dart';
 
 class StarterMenu extends StatefulWidget {
   StarterMenu({Key? key}) : super(key: key);
@@ -9,9 +10,13 @@ class StarterMenu extends StatefulWidget {
 }
 
 class _StarterStateMenu extends State<StarterMenu> {
+  bool isClicked = false;
   var _menuData;
   CollectionReference _starter =
       FirebaseFirestore.instance.collection('Starter');
+
+  AddBookMark addBookMark = AddBookMark();
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -68,11 +73,31 @@ class _StarterStateMenu extends State<StarterMenu> {
                               color: Color(0xfff50057),
                             ),
                             IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.bookmark_outline,
-                                  color: Color(0xFF442c2e),
-                                ))
+                                onPressed: () {
+                                  String name = _menuData.get("MenuName");
+                                  String imgUrl = _menuData.get("ImageUrl");
+                                  int rating = _menuData.get("Rating");
+                                  isClicked = !isClicked;
+                                  if (isClicked == true) {
+                                    addBookMark.addToDatabase(
+                                        name, imgUrl, rating.toDouble());
+                                    print("Added");
+                                  } else if (isClicked == false) {
+                                    var docid = snapshot.data?.docs[index].id;
+                                    print(docid);
+                                    addBookMark.deleteRecord(docid.toString());
+                                    print('Deleted');
+                                  }
+                                },
+                                icon: isClicked
+                                    ? Icon(
+                                        Icons.bookmark,
+                                        color: Color(0xFF442c2e),
+                                      )
+                                    : Icon(
+                                        Icons.bookmark_outline,
+                                        color: Color(0xFF442c2e),
+                                      ))
                           ],
                         )
                       ],

@@ -62,7 +62,7 @@ class _BookingState extends State<Booking> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: ListView(
           children: [
             Text(
               'Cafeteria',
