@@ -77,7 +77,10 @@ class _StarterStateMenu extends State<StarterMenu> {
                                   String name = _menuData.get("MenuName");
                                   String imgUrl = _menuData.get("ImageUrl");
                                   int rating = _menuData.get("Rating");
-                                  isClicked = !isClicked;
+                                  setState(() {
+                                    isClicked = !isClicked;
+                                  });
+
                                   if (isClicked == true) {
                                     addBookMark.addToDatabase(
                                         name, imgUrl, rating.toDouble());
