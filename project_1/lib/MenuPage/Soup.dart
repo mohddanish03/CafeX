@@ -9,12 +9,14 @@ class SoupMenu extends StatefulWidget {
 }
 
 class _SoupStateMenu extends State<SoupMenu> {
-  var _menuData;
-  CollectionReference _starter = FirebaseFirestore.instance.collection('Soup');
+  int indx = -1;
+  bool isSelected = false;
+  // CollectionReference _starter = FirebaseFirestore.instance.collection('Soup');
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _starter.snapshots(),
+      stream: FirebaseFirestore.instance.collection('Soup').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Center(child: Text("No Bookings"));
@@ -29,7 +31,7 @@ class _SoupStateMenu extends State<SoupMenu> {
           return ListView.builder(
               itemCount: snapshot.data?.docs.length,
               itemBuilder: (context, index) {
-                _menuData = snapshot.data?.docs[index];
+                DocumentSnapshot products = snapshot.data!.docs[index];
                 return Card(
                     elevation: 6,
                     child: Column(
@@ -40,7 +42,7 @@ class _SoupStateMenu extends State<SoupMenu> {
                           height: 220,
                           width: MediaQuery.of(context).size.width,
                           child: Image.network(
-                            _menuData.get("ImageUrl"),
+                            products['ImageUrl'],
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -48,7 +50,7 @@ class _SoupStateMenu extends State<SoupMenu> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(15.0),
-                              child: Text(_menuData.get("MenuName"),
+                              child: Text(products['MenuName'],
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -59,7 +61,7 @@ class _SoupStateMenu extends State<SoupMenu> {
                                 width: 100,
                               ),
                             ),
-                            Text(_menuData.get("Rating").toString(),
+                            Text(products['Rating'].toString(),
                                 style: TextStyle(
                                     fontSize: 14, color: Color(0xFF442c2e))),
                             Icon(
@@ -67,11 +69,22 @@ class _SoupStateMenu extends State<SoupMenu> {
                               color: Color(0xfff50057),
                             ),
                             IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.bookmark_outline,
-                                  color: Color(0xFF442c2e),
-                                ))
+                                onPressed: () {
+                                  indx = index;
+                                  print(indx);
+                                  print(isSelected);
+                                  isSelected = !isSelected;
+                                  setState(() {});
+                                },
+                                icon: indx == index && isSelected
+                                    ? Icon(
+                                        Icons.bookmark,
+                                        color: Color(0xFF442c2e),
+                                      )
+                                    : Icon(
+                                        Icons.bookmark_outline,
+                                        color: Color(0xFF442c2e),
+                                      ))
                           ],
                         )
                       ],

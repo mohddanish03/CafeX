@@ -29,7 +29,7 @@ class _StarterStateMenu extends State<StarterMenu> {
 
         return new ListView(
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
-            var id = document.id;
+            // var id = document.id;
             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
             return new Card(
@@ -70,14 +70,22 @@ class _StarterStateMenu extends State<StarterMenu> {
                         ),
                         IconButton(
                             onPressed: () {
-                              print(data['Rating']);
-                              print(data['MenuName']);
-                              print(id);
+                              setState(() {});
+                              isClicked = !isClicked;
+                              print(isClicked);
+                              // print(data['Rating']);
+                              // print(data['MenuName']);
+                              // print(id);
                             },
-                            icon: Icon(
-                              Icons.bookmark_outline,
-                              color: Color(0xFF442c2e),
-                            ))
+                            icon: isClicked
+                                ? Icon(
+                                    Icons.bookmark,
+                                    color: Color(0xFF442c2e),
+                                  )
+                                : Icon(
+                                    Icons.bookmark_outline,
+                                    color: Color(0xFF442c2e),
+                                  ))
                       ],
                     )
                   ],
