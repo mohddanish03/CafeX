@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_1/Auth/validation.dart';
 import 'package:project_1/Home/BottomNav.dart';
-
 
 class Login extends StatefulWidget {
   @override
@@ -8,6 +8,26 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final formkey = GlobalKey<FormState>();
+
+  validationModel validate = validationModel();
+
+  final TextEditingController _emailCtrl = TextEditingController();
+  final TextEditingController _passCtrl = TextEditingController();
+
+  clearTextfield() {
+    _emailCtrl.clear();
+    _passCtrl.clear();
+  }
+
+  checkValidation() {
+    final form = formkey.currentState;
+    if (form!.validate()) {
+      form.save();
+      //move to next screen
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,63 +76,79 @@ class _LoginState extends State<Login> {
               elevation: 10,
               child: Container(
                 padding: EdgeInsets.all(8),
-                height: MediaQuery.of(context).size.height / 2.3,
+                height: MediaQuery.of(context).size.height / 2.8,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
                     children: [
-                      SizedBox(height: 25),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            fillColor: Color(0xffFEEAE6),
-                            filled: true,
-                            focusedBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xFF442c2e))),
-                            border: new OutlineInputBorder(
-                              borderSide: BorderSide(
+                      Expanded(
+                        child: TextFormField(
+                          controller: _emailCtrl,
+                          validator: (value) => validate.validateEmail(value!),
+                          decoration: InputDecoration(
+                              fillColor: Color(0xffFEEAE6),
+                              filled: true,
+                              focusedBorder: const OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF442c2e))),
+                              border: new OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF442c2e),
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0),
+                                ),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.email,
                                 color: Color(0xFF442c2e),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(10.0),
-                              ),
-                            ),
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: Color(0xFF442c2e),
-                            ),
-                            labelText: 'Email',
-                            labelStyle: TextStyle(color: Color(0xFF442c2e))),
+                              labelText: 'Email',
+                              labelStyle: TextStyle(color: Color(0xFF442c2e))),
+                        ),
                       ),
-                      SizedBox(height: 25),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            fillColor: Color(0xffFEEAE6),
-                            filled: true,
-                            focusedBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xFF442c2e))),
-                            border: new OutlineInputBorder(
-                              borderSide: BorderSide(
+                      Expanded(
+                        child: TextFormField(
+                          controller: _passCtrl,
+                          obscureText: true,
+                          validator: (val) {
+                            if (val!.isEmpty)
+                              return 'Please Input Password';
+                            else if (val.length < 8)
+                              return 'Atleast 8 character';
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              fillColor: Color(0xffFEEAE6),
+                              filled: true,
+                              focusedBorder: const OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xFF442c2e))),
+                              border: new OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF442c2e),
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0),
+                                ),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.lock,
                                 color: Color(0xFF442c2e),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(10.0),
-                              ),
-                            ),
-                            prefixIcon: Icon(
-                              Icons.lock,
-                              color: Color(0xFF442c2e),
-                            ),
-                            labelText: 'Password',
-                            labelStyle: TextStyle(color: Color(0xFF442c2e))),
+                              labelText: 'Password',
+                              labelStyle: TextStyle(color: Color(0xFF442c2e))),
+                        ),
                       ),
-                      SizedBox(height: 25),
                       ElevatedButton(
                         onPressed: () {
+                          checkValidation();
+                          validate.signInWithEmailAndPass(
+                              _emailCtrl.text, _passCtrl.text);
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => BottomNavigation()));
+                          clearTextfield();
                         },
                         child: Text(
                           'Sign In',
@@ -133,7 +169,7 @@ class _LoginState extends State<Login> {
                             shape: MaterialStateProperty.all<StadiumBorder>(
                                 StadiumBorder())),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 5),
                       Text(
                         'Dont have an account ? Sign Up',
                         style:

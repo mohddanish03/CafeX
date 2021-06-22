@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project_1/Auth/Login.dart';
+import 'package:project_1/Auth/validation.dart';
 
 class Registration extends StatefulWidget {
   @override
@@ -10,7 +9,8 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   final _formKey = GlobalKey<FormState>();
-  final _auth = FirebaseAuth.instance;
+
+  validationModel validate = validationModel();
 
   final TextEditingController _nameCtrl = TextEditingController();
   final TextEditingController _emailCtrl = TextEditingController();
@@ -27,49 +27,11 @@ class _RegistrationState extends State<Registration> {
     _confirmPassCtrl.clear();
   }
 
-  validateName(String fullname) {
-    if (fullname.isEmpty) {
-      return 'Enter your name';
-    }
-    return null;
-  }
-
-  String? validateEmail(String value) {
-    Pattern pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = new RegExp(pattern.toString());
-    if (!regex.hasMatch(value))
-      return 'Enter a valid email address';
-    else
-      return null;
-  }
-
-  String? confirmPassword(String password) {
-    if (password.isEmpty) return 'Please Comfirm Password';
-    if (password != _passCtrl.text) return 'Password Do not match';
-    return null;
-  }
-
   checkValidation() {
     final form = _formKey.currentState;
     if (form!.validate()) {
       form.save();
       //move to next screen
-    }
-  }
-
-//sample for registration ----working--method---
-  void signUp(String email, String password) async {
-    await Firebase.initializeApp();
-    final User? user = (await _auth.createUserWithEmailAndPassword(
-            email: email, password: password))
-        .user;
-    if (user != null) {
-      if (!user.emailVerified) {
-        await user.sendEmailVerification();
-      }
     }
   }
 
@@ -132,7 +94,7 @@ class _RegistrationState extends State<Registration> {
                         Expanded(
                           child: TextFormField(
                             controller: _nameCtrl,
-                            validator: (value) => validateName(value!),
+                            validator: (value) => validate.validateName(value!),
                             decoration: InputDecoration(
                                 fillColor: Color(0xffFEEAE6),
                                 filled: true,
@@ -159,7 +121,8 @@ class _RegistrationState extends State<Registration> {
                         Expanded(
                           child: TextFormField(
                             controller: _emailCtrl,
-                            validator: (value) => validateEmail(value!),
+                            validator: (value) =>
+                                validate.validateEmail(value!),
                             decoration: InputDecoration(
                                 fillColor: Color(0xffFEEAE6),
                                 filled: true,
@@ -221,7 +184,8 @@ class _RegistrationState extends State<Registration> {
                         Expanded(
                           child: TextFormField(
                             controller: _confirmPassCtrl,
-                            validator: (val) => confirmPassword(val!),
+                            validator: (val) =>
+                                validate.confirmPassword(val!, _passCtrl.text),
                             obscureText: true,
                             decoration: InputDecoration(
                                 fillColor: Color(0xffFEEAE6),
@@ -252,7 +216,7 @@ class _RegistrationState extends State<Registration> {
                             setState(() {
                               checkValidation();
                               checkValidation();
-                              signUp(_emailCtrl.text, _passCtrl.text);
+                              validate.signUp(_emailCtrl.text, _passCtrl.text);
                               Navigator.of(context).push(
                                   MaterialPageRoute(builder: (_) => Login()));
                               clearTextfield();
@@ -281,18 +245,19 @@ class _RegistrationState extends State<Registration> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Dont have an account ?',
+                              'Already have an account ?',
                               style: TextStyle(
                                   fontSize: 16, color: Color(0xff442c2e)),
                             ),
                             TextButton(
                               onPressed: () {},
                               child: Text(
-                                'Sign Up',
+                                'Sign In',
                                 style: TextStyle(
                                     fontSize: 16,
                                     decoration: TextDecoration.underline,
-                                    decorationColor: Colors.red,
+                                    decorationColor: Color(0xff442c2e),
+                                    fontWeight: FontWeight.bold,
                                     decorationStyle: TextDecorationStyle.wavy,
                                     color: Color(0xff442c2e)),
                               ),
