@@ -104,10 +104,11 @@ class _BookmarkState extends State<Bookmark> {
 }
 
 class AddToBookMark {
-  Future<void> addToDatabase(String name, String url, double rating) async {
+  Future<void> addToDatabase(
+      String name, String url, int rating, String docID) async {
     await Firebase.initializeApp();
     CollectionReference ref = FirebaseFirestore.instance.collection("BookMark");
-    ref.doc().set({"MenuName": name, "ImgUrl": url, "Rating": rating});
+    ref.doc(docID).set({"MenuName": name, "ImgUrl": url, "Rating": rating});
   }
 
   CollectionReference _bookMark =

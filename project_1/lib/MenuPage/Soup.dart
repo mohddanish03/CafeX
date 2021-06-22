@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_1/BookMark/BookMark.dart';
 
 class SoupMenu extends StatefulWidget {
   SoupMenu({Key? key}) : super(key: key);
@@ -11,7 +12,8 @@ class SoupMenu extends StatefulWidget {
 class _SoupStateMenu extends State<SoupMenu> {
   int indx = -1;
   bool isSelected = false;
-  // CollectionReference _starter = FirebaseFirestore.instance.collection('Soup');
+
+  AddToBookMark bookMark = AddToBookMark();
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +73,22 @@ class _SoupStateMenu extends State<SoupMenu> {
                             IconButton(
                                 onPressed: () {
                                   indx = index;
-                                  print(indx);
-                                  print(isSelected);
                                   isSelected = !isSelected;
-                                  setState(() {});
+                                  if (isSelected == true) {
+                                    bookMark
+                                        .addToDatabase(
+                                            products['MenuName'],
+                                            products['ImageUrl'],
+                                            products['Rating'],
+                                            products.id)
+                                        .whenComplete(() =>
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        Bookmark())));
+                                  } else if (isSelected == false) {
+                                    bookMark.deleteRecord(products.id);
+                                  }
                                 },
                                 icon: indx == index && isSelected
                                     ? Icon(
