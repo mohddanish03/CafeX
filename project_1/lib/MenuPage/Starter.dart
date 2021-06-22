@@ -10,10 +10,6 @@ class StarterMenu extends StatefulWidget {
 }
 
 class _StarterStateMenu extends State<StarterMenu> {
-  bool isClicked = false;
-  int indx = -1;
-  bool isSelected = false;
-
   AddToBookMark bookMark = AddToBookMark();
 
   @override
@@ -21,9 +17,6 @@ class _StarterStateMenu extends State<StarterMenu> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('Starter').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Center(child: Text("No Bookings"));
-        }
         if (snapshot.hasError) {
           return Center(
             child: Text("Something went wrong !"),
@@ -38,7 +31,6 @@ class _StarterStateMenu extends State<StarterMenu> {
                 return Card(
                     elevation: 6,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           color: Color(0xFFFEEAE6),
@@ -75,13 +67,17 @@ class _StarterStateMenu extends State<StarterMenu> {
                               child: IconButton(
                                 onPressed: () {
                                   //add to bookmark
-                                  indx = index;
-                                  setState(() {
-                                    if (indx == index) isSelected = true;
-                                  });
-                                  print(isSelected);
+                                  bookMark
+                                      .addToDatabase(
+                                          products['MenuName'],
+                                          products['ImageUrl'],
+                                          products['Rating'],
+                                          products.id)
+                                      .whenComplete(() => Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => Bookmark())));
                                 },
-                                icon: Icon(Icons.add_circle_outline),
+                                icon: Icon(Icons.bookmark_add),
                               ),
                             )
                           ],

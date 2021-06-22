@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_1/BookMark/BookMark.dart';
 
 class JuiceMenu extends StatefulWidget {
   JuiceMenu({Key? key}) : super(key: key);
@@ -9,12 +10,11 @@ class JuiceMenu extends StatefulWidget {
 }
 
 class _JuiceStateMenu extends State<JuiceMenu> {
-  var _menuData;
-  CollectionReference _starter = FirebaseFirestore.instance.collection('Juice');
+  AddToBookMark bookMark = AddToBookMark();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _starter.snapshots(),
+      stream: FirebaseFirestore.instance.collection('Juice').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Center(child: Text("No Bookings"));
@@ -29,7 +29,7 @@ class _JuiceStateMenu extends State<JuiceMenu> {
           return ListView.builder(
               itemCount: snapshot.data?.docs.length,
               itemBuilder: (context, index) {
-                _menuData = snapshot.data?.docs[index];
+                DocumentSnapshot products = snapshot.data!.docs[index];
                 return Card(
                     elevation: 6,
                     child: Column(
@@ -40,7 +40,7 @@ class _JuiceStateMenu extends State<JuiceMenu> {
                           height: 220,
                           width: MediaQuery.of(context).size.width,
                           child: Image.network(
-                            _menuData.get("ImageUrl"),
+                            products['ImageUrl'],
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -48,7 +48,7 @@ class _JuiceStateMenu extends State<JuiceMenu> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(15.0),
-                              child: Text(_menuData.get("MenuName"),
+                              child: Text(products['MenuName'],
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -59,19 +59,30 @@ class _JuiceStateMenu extends State<JuiceMenu> {
                                 width: 100,
                               ),
                             ),
-                            Text(_menuData.get("Rating").toString(),
+                            Text(products['Rating'].toString(),
                                 style: TextStyle(
                                     fontSize: 14, color: Color(0xFF442c2e))),
                             Icon(
                               Icons.star,
                               color: Color(0xfff50057),
                             ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.bookmark_outline,
-                                  color: Color(0xFF442c2e),
-                                ))
+                            Container(
+                              child: IconButton(
+                                onPressed: () {
+                                  //add to bookmark
+                                  bookMark
+                                      .addToDatabase(
+                                          products['MenuName'],
+                                          products['ImageUrl'],
+                                          products['Rating'],
+                                          products.id)
+                                      .whenComplete(() => Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => Bookmark())));
+                                },
+                                icon: Icon(Icons.bookmark_add),
+                              ),
+                            )
                           ],
                         )
                       ],

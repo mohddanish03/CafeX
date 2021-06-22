@@ -10,9 +10,6 @@ class SoupMenu extends StatefulWidget {
 }
 
 class _SoupStateMenu extends State<SoupMenu> {
-  int indx = -1;
-  bool isSelected = false;
-
   AddToBookMark bookMark = AddToBookMark();
 
   @override
@@ -70,35 +67,23 @@ class _SoupStateMenu extends State<SoupMenu> {
                               Icons.star,
                               color: Color(0xfff50057),
                             ),
-                            IconButton(
+                            Container(
+                              child: IconButton(
                                 onPressed: () {
-                                  indx = index;
-                                  isSelected = !isSelected;
-                                  if (isSelected == true) {
-                                    bookMark
-                                        .addToDatabase(
-                                            products['MenuName'],
-                                            products['ImageUrl'],
-                                            products['Rating'],
-                                            products.id)
-                                        .whenComplete(() =>
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        Bookmark())));
-                                  } else if (isSelected == false) {
-                                    bookMark.deleteRecord(products.id);
-                                  }
+                                  //add to bookmark
+                                  bookMark
+                                      .addToDatabase(
+                                          products['MenuName'],
+                                          products['ImageUrl'],
+                                          products['Rating'],
+                                          products.id)
+                                      .whenComplete(() => Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (_) => Bookmark())));
                                 },
-                                icon: indx == index && isSelected
-                                    ? Icon(
-                                        Icons.bookmark,
-                                        color: Color(0xFF442c2e),
-                                      )
-                                    : Icon(
-                                        Icons.bookmark_outline,
-                                        color: Color(0xFF442c2e),
-                                      ))
+                                icon: Icon(Icons.bookmark_add),
+                              ),
+                            )
                           ],
                         )
                       ],

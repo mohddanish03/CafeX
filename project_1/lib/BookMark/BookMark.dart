@@ -8,11 +8,7 @@ class Bookmark extends StatefulWidget {
 }
 
 class _BookmarkState extends State<Bookmark> {
-  var _menuData;
-  bool isSelecred = false;
-
-  CollectionReference _bookMark =
-      FirebaseFirestore.instance.collection('BookMark');
+  AddToBookMark bookmark = AddToBookMark();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +21,7 @@ class _BookmarkState extends State<Bookmark> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _bookMark.snapshots(),
+        stream: FirebaseFirestore.instance.collection('BookMark').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Center(child: Text("No Bookings"));
@@ -35,7 +31,8 @@ class _BookmarkState extends State<Bookmark> {
               child: Text("Something went wrong !"),
             );
           }
-          if (snapshot.hasData) {
+          if (snapshot.hasData ||
+              snapshot.connectionState == ConnectionState.done) {
             return GridView.builder(
                 itemCount: snapshot.data?.docs.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -43,7 +40,7 @@ class _BookmarkState extends State<Bookmark> {
                     crossAxisSpacing: 6.0,
                     mainAxisSpacing: 3.0),
                 itemBuilder: (context, index) {
-                  _menuData = snapshot.data?.docs[index];
+                  DocumentSnapshot products = snapshot.data!.docs[index];
                   return Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
@@ -53,24 +50,39 @@ class _BookmarkState extends State<Bookmark> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 160,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  _menuData.get("ImgUrl"),
-                                  fit: BoxFit.cover,
+                          Stack(children: [
+                            Container(
+                              height: 160,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    products['ImgUrl'],
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      bookmark.deleteRecord(products.id);
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.delete_forever_rounded,
+                                    color: Colors.red,
+                                  )),
+                            )
+                          ]),
                           Row(
                             children: [
                               SizedBox(width: 10),
                               Expanded(
-                                child: Text(_menuData.get("MenuName"),
+                                child: Text(products['MenuName'],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     softWrap: false,
@@ -79,7 +91,7 @@ class _BookmarkState extends State<Bookmark> {
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xFF442c2e))),
                               ),
-                              Text(_menuData.get("Rating").toString(),
+                              Text(products['Rating'].toString(),
                                   style: TextStyle(
                                       fontSize: 14, color: Color(0xFF442c2e))),
                               Icon(
@@ -118,7 +130,7 @@ class AddToBookMark {
     return _bookMark
         .doc(docId)
         .delete()
-        .then((value) => print("User Deleted"))
+        .then((value) => print("Item Deleted"))
         .catchError((error) => print("Failed to delete user: $error"));
   }
 }
