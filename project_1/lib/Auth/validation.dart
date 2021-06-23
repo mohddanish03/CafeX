@@ -10,30 +10,35 @@ class validationModel {
     final User? user = (await _auth.createUserWithEmailAndPassword(
             email: email, password: password))
         .user;
-
     if (user != null) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool("isLogged", true);
       if (!user.emailVerified) {
         await user.sendEmailVerification();
       }
     }
   }
 
-  void signInWithEmailAndPass(String email, String pass) async {
+  Future<User> handleSignInEmail(String email, String password) async {
     await Firebase.initializeApp();
-    try {
-      final User? user =
-          (await _auth.signInWithEmailAndPassword(email: email, password: pass))
-              .user;
-      if (!user!.emailVerified) {
-        await user.sendEmailVerification();
-      }
-      // Get.to(HomeScreen());
-      print(user.uid + "this is unique id ");
-    } catch (e) {
-      print('This is errrrroooorrr $e');
-    }
+    UserCredential result = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    final User user = result.user!;
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setBool('IsLogged', true);
+    await user.sendEmailVerification();
+    print(user.displayName);
+    return user;
+  }
+
+  Future getCurrentUser() async {
+    User _user = await FirebaseAuth.instance.currentUser!;
+    print("User: ${_user.displayName ?? "None"}");
+    return _user;
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 
   validateName(String fullname) {

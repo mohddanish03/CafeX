@@ -17,9 +17,6 @@ class _RegistrationState extends State<Registration> {
   final TextEditingController _passCtrl = TextEditingController();
   final TextEditingController _confirmPassCtrl = TextEditingController();
 
-  late String email;
-  late String password;
-
   clearTextfield() {
     _nameCtrl.clear();
     _emailCtrl.clear();
@@ -150,6 +147,7 @@ class _RegistrationState extends State<Registration> {
                         Expanded(
                           child: TextFormField(
                             controller: _passCtrl,
+                            obscureText: true,
                             validator: (val) {
                               if (val!.isEmpty)
                                 return 'Please Input Password';
@@ -214,7 +212,6 @@ class _RegistrationState extends State<Registration> {
                         ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              checkValidation();
                               checkValidation();
                               validate.signUp(_emailCtrl.text, _passCtrl.text);
                               Navigator.of(context).push(

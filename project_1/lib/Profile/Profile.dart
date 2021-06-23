@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_1/Auth/Login.dart';
+import 'package:project_1/Auth/validation.dart';
 import 'package:project_1/Profile/MyBookings.dart';
 
 class Profile extends StatefulWidget {
@@ -99,6 +101,12 @@ class _ProfileState extends State<Profile> {
                         trailing: Icon(Icons.arrow_forward_ios, size: 18)),
                     Divider(height: 5),
                     ListTile(
+                        onTap: () async {
+                          validationModel _model = validationModel();
+                          _model.signOut().whenComplete(() =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Login())));
+                        },
                         title: Text('Log Out'),
                         trailing: Icon(Icons.arrow_forward_ios, size: 18)),
                   ],
