@@ -14,20 +14,18 @@ void main() async {
   print(status);
 
   runApp(
-    Expanded(
-      child: DevicePreview(
-        enabled: true,
-        builder: (context) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData.light().copyWith(
-              scaffoldBackgroundColor: Color(0xFFFEEAE6),
-              primaryColor: Color(0xFFFEDBD0),
-              hintColor: Color(0xFF442C2E)),
-          locale: DevicePreview.locale(context), // Add the locale here
-          builder: DevicePreview.appBuilder,
-          home: status == true ? BottomNavigation() : Login(),
-        ),
+    DevicePreview(
+      enabled: false,
+      builder: (context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: Color(0xFFFEEAE6),
+            primaryColor: Color(0xFFFEDBD0),
+            hintColor: Color(0xFF442C2E)),
+        locale: DevicePreview.locale(context), // Add the locale here
+        builder: DevicePreview.appBuilder,
+        home: status == true ? BottomNavigation() : Login(),
       ),
     ),
   );

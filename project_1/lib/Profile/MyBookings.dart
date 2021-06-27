@@ -8,7 +8,6 @@ class MyBookings extends StatefulWidget {
 
 class _MyBookingsState extends State<MyBookings> {
   bool isClicked = false;
-  var _userData;
   late String docID;
 
   //showDialog
@@ -29,7 +28,7 @@ class _MyBookingsState extends State<MyBookings> {
                 ),
                 SizedBox(height: 6),
                 Text(
-                  'You want to delete this booking',
+                  'You want to cancel this booking',
                   style: TextStyle(fontSize: 17),
                 ),
               ],
@@ -83,8 +82,6 @@ class _MyBookingsState extends State<MyBookings> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference _bookinData =
-        FirebaseFirestore.instance.collection("BookTable");
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -102,9 +99,10 @@ class _MyBookingsState extends State<MyBookings> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _bookinData.snapshots(),
+        stream: FirebaseFirestore.instance.collection('BookTable').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (!snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
             return Center(child: Text("No Bookings"));
           }
           if (snapshot.hasError) {
@@ -117,83 +115,158 @@ class _MyBookingsState extends State<MyBookings> {
             return ListView.builder(
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  _userData = snapshot.data?.docs[index];
+                  DocumentSnapshot _orders = snapshot.data!.docs[index];
+
                   return Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Card(
+                      elevation: 20,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                            color: Color(0xfffedbd0),
                             height: MediaQuery.of(context).size.height / 4.4,
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 5),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          "Booking Id : ${_userData?.id}",
-                                          style: TextStyle(
-                                              color: Color(0xff442c2e),
-                                              fontSize: 17),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      IconButton(
-                                          onPressed: () {
-                                            print('dailog');
-                                            _showMyDialog(context);
-                                            docID = _userData.id;
-                                          },
-                                          icon: Icon(
-                                              Icons.delete_forever_rounded,
-                                              color: Colors.red))
-                                    ],
+                                  padding:
+                                      const EdgeInsets.only(top: 5, left: 15),
+                                  child: Text(
+                                    "Booking Id : ${_orders.id}",
+                                    style: TextStyle(
+                                        color: Color(0xff442c2e),
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, bottom: 10.0),
-                                    child: Text(
-                                      "Time  : ${_userData?.get("Time")} pm",
-                                      style: TextStyle(
-                                          color: Color(0xff442c2e),
-                                          fontSize: 17),
-                                    )),
-                                SizedBox(width: 40),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, bottom: 10.0),
-                                    child: Text(
-                                      "Guest  : ${_userData?.get("Guests")} members ",
-                                      style: TextStyle(
-                                          color: Color(0xff442c2e),
-                                          fontSize: 17),
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, bottom: 10.0),
-                                    child: Text(
-                                      "Location : ${_userData?.get("location")} ",
-                                      style: TextStyle(
-                                          color: Color(0xff442c2e),
-                                          fontSize: 17),
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, bottom: 10.0),
-                                    child: Text(
-                                      "Reserved on : ${_userData?.get("Date")} ",
-                                      style: TextStyle(
-                                          color: Color(0xff442c2e),
-                                          fontSize: 17),
-                                    )),
+                                Row(
+                                  children: [
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Chip(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        backgroundColor: Color(0xfffedbd0),
+                                        label: Text(
+                                          "Date : ${_orders['Date']}",
+                                          style: TextStyle(
+                                              color: Color(0xff442c2e),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: Chip(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        backgroundColor: Color(0xfffedbd0),
+                                        label: Text(
+                                          "Time : ${_orders['Time']} pm",
+                                          style: TextStyle(
+                                              color: Color(0xff442c2e),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(width: 12),
+                                    Chip(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      avatar: Icon(
+                                        Icons.location_on,
+                                        color: Colors.green,
+                                      ),
+                                      backgroundColor: Color(0xfffedbd0),
+                                      padding:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      label: Text(
+                                        _orders['location'],
+                                        style: TextStyle(
+                                            color: Color(0xff442c2e),
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Expanded(
+                                      child: Chip(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        backgroundColor: Color(0xfffedbd0),
+                                        label: Text(
+                                          "Guest  : ${_orders['Guests']} members",
+                                          style: TextStyle(
+                                              color: Color(0xff442c2e),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(width: 12),
+                                    OutlinedButton(
+                                      onPressed: () {},
+                                      child: Text(
+                                        'Call',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xff442c2e),
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      style: OutlinedButton.styleFrom(
+                                        padding: EdgeInsets.only(
+                                            left: 30, right: 30),
+                                        side: BorderSide(
+                                            width: 3.0,
+                                            color: Color(0xff442c2e)),
+                                      ),
+                                    ),
+                                    SizedBox(width: 30),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          docID = _orders.id;
+                                          _showMyDialog(context);
+                                        },
+                                        child: Text(
+                                          'Cancel Booking',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFFFCF5F5),
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.red),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)))),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                  ],
+                                ),
                               ],
                             )),
                       ),

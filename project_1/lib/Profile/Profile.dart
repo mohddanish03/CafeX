@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_1/Auth/Login.dart';
 import 'package:project_1/Auth/validation.dart';
 import 'package:project_1/Profile/MyBookings.dart';
+import 'package:project_1/Profile/Notification.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _ProfileState extends State<Profile> {
         ),
         body: ListView(
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 30),
             Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
@@ -85,8 +86,13 @@ class _ProfileState extends State<Profile> {
                         )),
                     Divider(height: 5),
                     ListTile(
-                        title: Text('Notification'),
-                        trailing: Icon(Icons.arrow_forward_ios, size: 18)),
+                      title: Text('Notification'),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Notifications()));
+                      },
+                    ),
                     Divider(height: 5),
                     ListTile(
                         title: Text('Our Branches'),
