@@ -71,6 +71,7 @@ class _TaskFlutterState extends State<TaskFlutter> {
                                       name: _items[index]["p_name"],
                                     )));
                           },
+                          //
                           child: Card(
                             child: Column(
                               children: [
