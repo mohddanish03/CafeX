@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project_1/Auth/Login.dart';
@@ -14,19 +13,14 @@ void main() async {
   print(status);
 
   runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData.light().copyWith(
-            scaffoldBackgroundColor: Color(0xFFFEEAE6),
-            primaryColor: Color(0xFFFEDBD0),
-            hintColor: Color(0xFF442C2E)),
-        locale: DevicePreview.locale(context), // Add the locale here
-        builder: DevicePreview.appBuilder,
-        home: status == true ? BottomNavigation() : Login(),
-      ),
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData.light().copyWith(
+          scaffoldBackgroundColor: Color(0xFFFEEAE6),
+          primaryColor: Color(0xFFFEDBD0),
+          hintColor: Color(0xFF442C2E)),
+      home: status == true ? BottomNavigation() : Login(),
     ),
   );
 }

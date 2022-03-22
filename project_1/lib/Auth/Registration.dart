@@ -36,6 +36,7 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFEDBD0),
         automaticallyImplyLeading: false,
       ),
       body: ListView(

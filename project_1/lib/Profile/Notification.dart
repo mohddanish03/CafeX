@@ -12,6 +12,7 @@ class _NotificationState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFEDBD0),
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();

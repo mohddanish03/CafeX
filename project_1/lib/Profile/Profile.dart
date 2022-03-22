@@ -16,6 +16,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xFFFEDBD0),
           automaticallyImplyLeading: false,
         ),
         body: ListView(

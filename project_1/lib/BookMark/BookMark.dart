@@ -14,6 +14,7 @@ class _BookmarkState extends State<Bookmark> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFFFEDBD0),
         title: Text(
           "Your Wish List",
           style: TextStyle(color: Color(0xFF442c2e)),

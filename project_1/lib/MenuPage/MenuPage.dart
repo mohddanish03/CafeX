@@ -20,6 +20,7 @@ class _MenuPageState extends State<MenuPage> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
+              backgroundColor: Color(0xFFFEDBD0),
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: Text(

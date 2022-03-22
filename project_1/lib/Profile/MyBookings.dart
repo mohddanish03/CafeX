@@ -84,6 +84,7 @@ class _MyBookingsState extends State<MyBookings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFEDBD0),
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();

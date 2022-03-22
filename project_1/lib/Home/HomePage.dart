@@ -40,11 +40,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFFFEDBD0),
         centerTitle: true,
         title: Text(
           'Caferteria',
           style: TextStyle(
-              color: Color(0xFF442C2E),
+              color: Color(0xFF442C2e),
               fontSize: 20,
               fontWeight: FontWeight.bold),
         ),

@@ -3,7 +3,6 @@ import 'package:project_1/Auth/Registration.dart';
 import 'package:project_1/Auth/validation.dart';
 import 'package:project_1/Home/BottomNav.dart';
 
-
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -33,9 +32,6 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
       body: ListView(
         children: [
           Container(
