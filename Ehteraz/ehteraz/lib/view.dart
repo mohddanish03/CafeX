@@ -64,7 +64,8 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
               Card(
                 semanticContainer: true,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Image.asset(widget.img),
+                child: Image.asset(wid
+                mg),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(3.0),
                 ),

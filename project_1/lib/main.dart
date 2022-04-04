@@ -11,7 +11,7 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var status = prefs.getBool('IsLogged') ?? false;
   print(status);
-
+f
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
